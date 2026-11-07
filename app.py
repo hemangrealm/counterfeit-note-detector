@@ -4,7 +4,7 @@ from pathlib import Path
 from flask import Flask, jsonify, render_template, request
 
 import config
-from src.history import add_scan, clear_history, recent_scans
+
 from src.predict import get_detector, load_metrics
 from src.preprocess import InvalidImageError
 
