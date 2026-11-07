@@ -3,7 +3,7 @@ Currency Note Authenticator is a web-based assistant that helps verify banknotes
 
 # Note Check: Fake Currency Detection
 
-A machine learning web app that checks a photo of a currency note and predicts whether it is **real or fake**, with a confidence score.
+A machine learning web assistance that checks a photo of a currency note and predicts whether it is **real or fake**, with a confidence score.
 
 **Live demo:** _add your Render link here_
 
@@ -115,8 +115,4 @@ json
 
 **Docker:** 
 
-## Limitations and future work
 
-- Trained on limited data; real-world accuracy depends on the dataset and photo quality.
-- Only visible-light features are analysed.
-- Next steps: analyse security regions separately (thread, serial number, portrait), add data augmentation, compare against a CNN (PyTorch or TensorFlow), and add scan history.
