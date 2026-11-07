@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Note Check: fake currency detection</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="top">
+  <h1>Note Check</h1>
+  <p>Upload a clear photo of a currency note. The model compares its print detail, edges, texture and colour with what it learned from real and fake examples.</p>
+</header>
+
+<main class="layout">
+  <section class="intake" aria-labelledby="intake-title">
+    <h2 id="intake-title" class="sr">Upload a note</h2>
+    <label class="frame" id="drop" tabindex="0">
+      <input type="file" id="file" accept="image/*" hidden>
+      <img id="preview" alt="Preview of the selected note" hidden>
+      <span class="frame-text" id="frame-text">
+        <strong>Drop a note photo here</strong>
+        <span>or click to choose a file. JPG, PNG or WebP, up to {{ max_mb }} MB.</span>
+      </span>
+    </label>
+    <div class="actions">
+      <button id="check" disabled>Check this note</button>
+      <button id="clear" class="ghost" hidden>Choose another</button>
+    </div>
+    <p class="tip">For best results: flat surface, even light, whole note in frame, no glare.</p>
+  </section>
+
+  <section class="verdict" id="verdict" aria-live="polite">
+    <div class="empty" id="empty">
+      <h2>No result yet</h2>
+      <p>Choose a note photo and select <em>Check this note</em>.</p>
+    </div>
+    <div class="result" id="result" hidden>
+      <div class="stamp" id="stamp"></div>
+      <p class="msg" id="msg"></p>
+      <div class="meter" role="img" aria-label="Model confidence">
+        <div class="meter-fill" id="meter"></div>
+      </div>
+      <p class="meter-label"><span id="conf"></span> confidence</p>
+      <dl class="readings">
+        <div><dt>Print sharpness</dt><dd id="sharp"></dd></div>
+        <div><dt>Edge density</dt><dd id="edge"></dd></div>
+      </dl>
+    </div>
+    <p class="error" id="error" role="alert" hidden></p>
+  </section>
+</main>
+
+<section class="about">
+  <h2>How the check works</h2>
+  <ol>
+    <li>The photo is resized and cleaned up.</li>
+    <li>Colour, edge, texture and fine-detail measurements are extracted with OpenCV.</li>
+    <li>A scikit-learn model scores how closely they match genuine notes.</li>
+    <li>Low-confidence or blurry results are flagged for manual verification instead of guessing.</li>
+  </ol>
+  {% if metrics %}
+  <p class="model">
+    Current model: {{ metrics.best_model }}. Test accuracy {{ '%.1f'|format(metrics.test_accuracy * 100) }}%,
+    F1 {{ '%.3f'|format(metrics.test_f1) }}, on {{ metrics.n_test }} held-out images.
+    {% if metrics.dataset_note == 'demo/synthetic' %}<strong>Trained on a synthetic demo dataset. Retrain on real note photos before relying on it.</strong>{% endif %}
+  </p>
+  {% endif %}
+  <p class="limits">This is a screening aid, not proof. Genuine verification relies on security features a camera cannot capture (UV, watermark, thread). When in doubt, check with a bank.</p>
+</section>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
