@@ -5,7 +5,7 @@ Currency Note Authenticator is a web-based assistant that helps verify banknotes
 
 A machine learning web assistance that checks a photo of a currency note and predicts whether it is **real or fake**, with a confidence score.
 
-**Live demo:** _add your Render link here_
+**Live demo:** https://counterfeit-note-detector.onrender.com
 
 > **Disclaimer:** this is an educational screening aid, not proof of authenticity. A normal camera cannot capture UV, watermark or security-thread features. When in doubt, verify the note with a bank.
 
